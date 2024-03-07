@@ -62,8 +62,12 @@ const startServer = async () => {
 
   try {
     const port = process.env.PORT || 4000;
-    fastify.listen({ port });
-    fastify.log.info(`Server is running on port: ${port}`);
+    fastify.listen(port, '0.0.0.0', (err, address) => {
+      if (err) throw err
+      console.log(`Server is now listening on ${address}`)
+    })
+    
+    console.log(`Server is running on port: ${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
