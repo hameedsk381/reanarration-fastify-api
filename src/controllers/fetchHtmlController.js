@@ -22,6 +22,8 @@ export const downloadContent = async (request, reply) => {
             el.attr('data-id', existingDataId || uuidv4());
         });
 
+        $('header').remove(); // Remove header tags
+
         const htmlContent = juice($.html());
         reply.header('Content-Type', 'text/html').send(htmlContent);
     } catch (error) {

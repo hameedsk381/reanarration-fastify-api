@@ -58,6 +58,25 @@ export const getRenarrationById = async (request, reply) => {
         reply.code(500).send('Error fetching renarration');
     }
 };
+export const getRenarrationsByURL = async (request, reply) => {
+    const { source } = request.body;
+
+    try {
+        const blocks = await Block.find({ source });
+        const blockIds = blocks.map(block => block._id);
+        const renarrations = await Renarration.find({ blocks: { $in: blockIds } }).select('-sharingId -blocks');
+        
+        if (renarrations.length === 0) {
+            reply.code(404).send('Renarration not found');
+            return; // Make sure to return after sending a response
+        }
+
+        reply.send(renarrations);
+    } catch (error) {
+        console.error('Error fetching renarration:', error);
+        reply.code(500).send('Error fetching renarration');
+    }
+};
 
 export const updateRenarrationById = async (request, reply) => {
     const { id } = request.params;

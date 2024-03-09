@@ -78,18 +78,19 @@ fastify.register(fetchRouter, { prefix: '/download' });
 const startServer = async () => {
 
 
-  try {
-    const port = process.env.PORT || 4000;
-    fastify.listen(port, '0.0.0.0', (err, address) => {
-      if (err) throw err
-      console.log(`Server is now listening on ${address}`)
-    })
+  const options = {
+    host: '0.0.0.0',
+    port: process.env.PORT || 4000
+  };
 
-    console.log(`Server is running on port: ${port}`);
-  } catch (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
+  fastify.listen(options, (err, address) => {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
+    console.log(`Server is now listening on ${address}`);
+    console.log(`Server is running on port: ${options.port}`);
+  });
 };
 
 startServer();
