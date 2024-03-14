@@ -5,7 +5,7 @@ import connectDB from './src/config/db.js';
 import fetchRouter from './src/routes/fetchRouter.js';
 import RenarrationRouter from './src/routes/RenarrationRouter.js';
 import cors from '@fastify/cors';
-import { create } from '@web3-storage/w3up-client';
+import { FleekSdk, PersonalAccessTokenService } from '@fleekxyz/sdk';
 // Initialize dotenv
 dotenv.config();
 // Create a Fastify instance
@@ -19,20 +19,18 @@ fastify.register(import('@fastify/multipart'));
 connectDB();
 
 
- let client;
-(async () => {
-  client = await create();
-  const space = await client.createSpace('hameed_storage');
-  const myAccount = await client.login('hameedsk381@gmail.com');
-  await myAccount.provision(space.did());
-  await space.save();
-  await client.setCurrentSpace(space.did());
-  const recovery = await space.createRecovery(myAccount.did());
-  await client.capability.access.delegate({
-    space: space.did(),
-    delegations: [recovery],
-  });
-})();
+
+
+const patService = new PersonalAccessTokenService({
+  personalAccessToken: process.env.PERSONAL_ACCESS_TOKEN,
+  projectId: process.env.PROJECT_ID
+})
+
+
+const fleekSdk = new FleekSdk({ accessTokenService: patService })
+
+// fleekSdk is an authenticated instance of FleekSDK
+// with a selected projectId
 
 
 
@@ -52,17 +50,17 @@ fastify.post('/upload', async (request, reply) => {
   try {
     const fileData = await data.toBuffer();
     const fileName = data.filename;
-    // Assuming File API is available, or use an equivalent Blob/File constructor alternative
-    const file = new File([fileData], fileName); 
-
-    const fileCid = await client.uploadFile(file);
-    console.log('Uploaded file CID:', fileCid);
-    reply.send(`https://${fileCid}.ipfs.w3s.link/`);
+    const result = await fleekSdk.ipfs().add({  // Added await here
+      path: fileName,
+      content: fileData
+    });
+    reply.send(`https://${result.cid.toString()}.ipfs.w3s.link/`);
   } catch (error) {
     console.error('Error uploading file:', error);
-    reply.code(500).send('Error uploading file',error.message);
+    reply.code(500).send('Error uploading file', error.message);
   }
 });
+
 // Register your routes or route files. Note that route registration syntax is different in Fastify.
 // You might need to adapt your routers to be compatible with Fastify's structure.
 // This often involves exporting functions that take a Fastify instance as an argument and then calling the `.route` or `.get/post/etc.` methods on it.

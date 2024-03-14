@@ -1,19 +1,19 @@
 {
-  "name": "renarration-api",
+  "name": "renarration-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "server for renarration",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hameed",
   "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@fastify/multipart": "^6.0.0",
-    "@web3-storage/w3up-client": "^12.4.1",
+    "@fleekxyz/sdk": "^1.3.3",
     "axios": "^1.6.5",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.4",
