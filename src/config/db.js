@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
-dotenv.config();
+process.loadEnvFile()
+
 const connectDB = async () => {
     try {
         // Connect to MongoDB

@@ -1,5 +1,5 @@
 # Specify the base image. Adjust the version as needed.
-FROM node:20
+FROM node:latest
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
