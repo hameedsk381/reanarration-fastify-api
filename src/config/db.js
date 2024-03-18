@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-process.loadEnvFile()
+import dotenv from 'dotenv';
+dotenv.config();
 
 const connectDB = async () => {
     try {

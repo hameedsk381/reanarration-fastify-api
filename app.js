@@ -7,7 +7,8 @@ import cors from '@fastify/cors';
 import uploadRouter from './src/routes/uploadRouter.js';
 
 // Initialize dotenv
-process.loadEnvFile();
+import dotenv from 'dotenv';
+dotenv.config();
 // Create a Fastify instance
 const fastify = Fastify();
 
