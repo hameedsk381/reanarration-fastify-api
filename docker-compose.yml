@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    container_name: express_app
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    links:
+      - mongo
+    environment:
+      PORT: 3000
+      MONGO_DB_URI: mongodb://mongo:27017/Renarration
+      SPACE_NAME: hameed_storage
+      MAIL: hameedsk381@gmail.com
+  mongo:
+    container_name: mongo_db
+    image: mongo
+    ports:
+      - "27017:27017"
+  archivebox:
+    image: archivebox/archivebox:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./archivebox/data:/data
+    environment:
+      ALLOWED_HOSTS: "*"  # Set this to restrict incoming traffic to specific domain names
