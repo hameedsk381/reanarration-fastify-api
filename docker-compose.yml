@@ -21,11 +21,3 @@ services:
     image: mongo
     ports:
       - "27017:27017"
-  archivebox:
-    image: archivebox/archivebox:latest
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./archivebox/data:/data
-    environment:
-      ALLOWED_HOSTS: "*"  # Set this to restrict incoming traffic to specific domain names

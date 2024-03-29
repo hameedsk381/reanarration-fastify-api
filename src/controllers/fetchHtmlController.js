@@ -3,7 +3,9 @@ import cheerio from 'cheerio';
 import juice from 'juice';
 import { v4 as uuidv4 } from 'uuid';
 import { Savedoc } from '../models/Htmldocs.js';
-
+import FormData from 'form-data';
+import Dockerode from 'dockerode';
+const docker = new Dockerode();
 export const downloadContent = async (request, reply) => {
     const { url } = request.body;
 
@@ -43,10 +45,11 @@ export const downloadContent = async (request, reply) => {
             reply.header('Content-Type', 'text/html').send(htmlContent);
         }
         
+  
         
     } catch (error) {
         console.error(`This page cannot be renarrated at the moment: ${error.message}`);
-        reply.status(500).send('This page cannot be renarrated at the moment');
+        reply.status(500).send(error);
     }
 };
 
