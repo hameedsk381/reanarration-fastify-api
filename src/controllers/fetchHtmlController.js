@@ -3,9 +3,7 @@ import cheerio from 'cheerio';
 import juice from 'juice';
 import { v4 as uuidv4 } from 'uuid';
 import { Savedoc } from '../models/Htmldocs.js';
-import FormData from 'form-data';
-import Dockerode from 'dockerode';
-const docker = new Dockerode();
+
 export const downloadContent = async (request, reply) => {
     const { url } = request.body;
 
