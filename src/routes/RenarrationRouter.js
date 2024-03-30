@@ -7,7 +7,8 @@ import {
   deleteRenarrationById,
   verifySharing,
   getRenarrationsByURL,
-  getBlockById
+  getBlockById,
+  getBlocksByURL
 } from '../controllers/renarrationController.js';
 
 export default function (fastify, options, done) {
@@ -20,6 +21,7 @@ export default function (fastify, options, done) {
   fastify.delete('/renarrations/:id', deleteRenarrationById);
   fastify.post('/verify-sharing', verifySharing);
   fastify.post('/url', getRenarrationsByURL);
+  fastify.post('/blocks/url', getBlocksByURL);
 
   done();
 }

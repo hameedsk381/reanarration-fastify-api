@@ -77,6 +77,21 @@ export const getRenarrationsByURL = async (request, reply) => {
         reply.code(500).send('Error fetching renarration');
     }
 };
+export const getBlocksByURL = async (request, reply) => {
+    const { url } = request.body;
+
+    try {
+        const blocks = await Block.find({ source: url });
+        if (blocks.length === 0) {
+            reply.code(404).send('Blocks not found for the URL');
+            return;
+        }
+        reply.send(blocks);
+    } catch (error) {
+        console.error('Error fetching blocks for URL:', error);
+        reply.code(500).send('Error fetching blocks for URL');
+    }
+};
 
 export const updateRenarrationById = async (request, reply) => {
     const { id } = request.params;
