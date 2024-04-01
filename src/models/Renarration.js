@@ -64,8 +64,15 @@ const BlockSchema = new mongoose.Schema({
     renarrationStatus: {
         type: Boolean,
         required: true
-    }
-});
+},createdAt: {
+    type: Date,
+    default: Date.now
+},
+updatedAt: {
+    type: Date,
+    default: Date.now
+}
+},{ timestamps: true });
 
 
 // Define Block model
@@ -80,7 +87,8 @@ const RenarrationSchema = new mongoose.Schema({
     sharingId: {
         type: String,
         required: true
-    }
+    },
+    
 });
 
 // Define Renarration model

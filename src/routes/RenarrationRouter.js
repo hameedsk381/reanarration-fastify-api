@@ -21,7 +21,7 @@ export default function (fastify, options, done) {
   fastify.delete('/renarrations/:id', deleteRenarrationById);
   fastify.post('/verify-sharing', verifySharing);
   fastify.post('/url', getRenarrationsByURL);
-  fastify.post('/blocks/url', getBlocksByURL);
+  fastify.post('/getBlock', getBlocksByURL);
 
   done();
 }
