@@ -45,7 +45,7 @@ export const downloadContent = async (request, reply) => {
         
         
     } catch (error) {
-        console.error(`This page cannot be renarrated at the moment: ${error.message}`);
+        console.error(`This page cannot be renarrated at the moment`,error);
         reply.status(500).send('This page cannot be renarrated at the moment');
     }
 };

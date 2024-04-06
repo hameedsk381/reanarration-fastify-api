@@ -8,7 +8,8 @@ import {
   verifySharing,
   getRenarrationsByURL,
   getBlockById,
-  getBlocksByURL
+  getBlocksByURL,
+  getBlocksByTag
 } from '../controllers/renarrationController.js';
 
 export default function (fastify, options, done) {
@@ -22,6 +23,7 @@ export default function (fastify, options, done) {
   fastify.post('/verify-sharing', verifySharing);
   fastify.post('/url', getRenarrationsByURL);
   fastify.post('/getBlock', getBlocksByURL);
+  fastify.post('/getBlockByTag', getBlocksByTag);
 
   done();
 }

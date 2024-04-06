@@ -51,6 +51,7 @@ const BlockSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+
         format: {
             type: String,
             required: true
@@ -60,6 +61,10 @@ const BlockSchema = new mongoose.Schema({
     source: {
         type: String,
         required: true
+    },
+    tags:{
+         type : Array,
+         required: true
     },
     renarrationStatus: {
         type: Boolean,

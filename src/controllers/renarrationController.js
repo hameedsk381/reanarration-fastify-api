@@ -8,8 +8,13 @@ export const createRenarration = async (request, reply) => {
         const sharingId = uuidv4();
 
         for (const block of formData.blocks) {
-            const newBlock = await Block.create({ ...block });
-            blocks.push(newBlock._id);
+            const existingBlock = await Block.findById(block._id);
+            if (existingBlock) {
+                blocks.push(existingBlock._id);
+            } else {
+                const newBlock = await Block.create({ ...block });
+                blocks.push(newBlock._id);
+            }
         }
 
         formData.blocks = blocks;
@@ -93,6 +98,23 @@ export const getBlocksByURL = async (request, reply) => {
         return reply.code(500).send('Error fetching blocks for URL');
     }
 };
+export const getBlocksByTag = async (request, reply) => {
+    const { tag } = request.body;
+
+    try {
+        const blocks = await Block.find({ tags: { $in: [tag] } });
+
+        if (blocks.length === 0) {
+            return reply.code(404).send('Blocks not found for the tag');
+        }
+
+        return reply.send(blocks);
+    } catch (error) {
+        console.error('Error fetching blocks for tag:', error);
+        return reply.code(500).send('Error fetching blocks for tag');
+    }
+};
+
 
 export const updateRenarrationById = async (request, reply) => {
     const { id } = request.params;
