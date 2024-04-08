@@ -68,7 +68,7 @@ export const getRenarrationsByURL = async (request, reply) => {
 
     try {
         const blocks = await Block.find({source});
-        const blockIds = blocks.map(block => block._id);
+        // const blockIds = blocks.map(block => block._id);
         // const renarrations = await Renarration.find({ blocks: { $in: blockIds } }).select('-sharingId -blocks');
         
         // if (renarrations.length === 0) {
@@ -76,7 +76,7 @@ export const getRenarrationsByURL = async (request, reply) => {
         //     return; // Make sure to return after sending a response
         // }
 
-        reply.send(blockIds);
+        reply.send(blocks);
     } catch (error) {
         console.error('Error fetching renarration:', error);
         reply.code(500).send('Error fetching renarration');
