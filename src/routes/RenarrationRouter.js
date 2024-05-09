@@ -1,29 +1,13 @@
-// src/routes/renarrationRoutes.js
-import {
-  createRenarration,
-  getAllRenarrations,
-  getRenarrationById,
-  updateRenarrationById,
-  deleteRenarrationById,
-  verifySharing,
-  getRenarrationsByURL,
-  getBlockById,
-  getBlocksByURL,
-  getBlocksByTag
-} from '../controllers/renarrationController.js';
+import { createRenarration, getAllRenarrations, getRenarrationById, getRenarrationsByUrl, verifySharing } from "../controllers/Renarration.js";
 
-export default function (fastify, options, done) {
-  // Define child routes
-  fastify.post('/create-renarration', createRenarration);
-  fastify.get('/renarrations', getAllRenarrations);
-  fastify.get('/renarrations/:id', getRenarrationById);
-  fastify.get('/:id', getBlockById);
-  fastify.put('/renarrations/:id', updateRenarrationById);
-  fastify.delete('/renarrations/:id', deleteRenarrationById);
-  fastify.post('/verify-sharing', verifySharing);
-  fastify.post('/url', getRenarrationsByURL);
-  fastify.post('/getBlock', getBlocksByURL);
-  fastify.post('/getBlockByTag', getBlocksByTag);
 
-  done();
-}
+  
+  export default function (fastify, options, done) {
+    fastify.post('/create', createRenarration);
+    fastify.get('/', getAllRenarrations);
+    fastify.post('/verify-sharing/:sharingId', verifySharing);
+    fastify.get('/:id', getRenarrationById);
+    fastify.post('/by-url', getRenarrationsByUrl);
+    done();
+  }
+  

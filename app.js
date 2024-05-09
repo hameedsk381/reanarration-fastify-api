@@ -2,12 +2,13 @@
 import Fastify from 'fastify';
 import connectDB from './src/config/db.js';
 import fetchRouter from './src/routes/fetchRouter.js';
-import RenarrationRouter from './src/routes/RenarrationRouter.js';
 import cors from '@fastify/cors';
 import uploadRouter from './src/routes/uploadRouter.js';
 
 // Initialize dotenv
 import dotenv from 'dotenv';
+import SweetRouter from './src/routes/SweetRouter.js';
+import RenarrationRouter from './src/routes/RenarrationRouter.js';
 dotenv.config();
 // Create a Fastify instance
 const fastify = Fastify();
@@ -22,7 +23,8 @@ fastify.get('/', async (request, reply) => {
   return 'Welcome to the Renarration API';
 });
 
-fastify.register(RenarrationRouter, { prefix: '/sweets' });
+fastify.register(SweetRouter, { prefix: '/sweets' });
+fastify.register(RenarrationRouter, { prefix: '/renarrations' });
 fastify.register(fetchRouter, { prefix: '/download' });
 fastify.register(uploadRouter, { prefix: '/upload' });
 
