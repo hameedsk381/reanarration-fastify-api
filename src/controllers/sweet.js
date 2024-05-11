@@ -63,6 +63,35 @@ export const getSweetById = async (request, reply) => {
         reply.code(500).send('Error fetching sweet');
     }
 };
+export const getSweetsByUrl = async (request, reply) => {
+    const { url } = request.body;  // Extract URL from the request body
+
+    try {
+        // Step 1: Retrieve all relevant annotation IDs from the Annotation collection
+        const annotations = await Annotation.find({ source: url, annotationStatus: true }).select('_id');
+        const annotationIds = annotations.map(annotation => annotation._id);
+
+        if (annotationIds.length === 0) {
+            reply.code(404).send('No sweets found for the specified URL');
+            return;
+        }
+
+        // Step 2: Use the retrieved IDs to find corresponding Sweets
+        const sweets = await Sweet.find({ annotations: { $in: annotationIds } }).populate('annotations');
+
+        if (sweets.length === 0) {
+            reply.code(404).send('No sweets found related to the annotations from the specified URL');
+            return;
+        }
+
+        reply.send(sweets);
+    } catch (error) {
+        console.error('Error fetching sweets by URL:', error);
+        reply.code(500).send('Error fetching sweets by URL');
+    }
+};
+
+
 export const getAnnotationsByURL = async (request, reply) => {
     const { source } = request.body;
 
